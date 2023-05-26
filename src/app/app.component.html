@@ -1,1 +1,6 @@
-<h1>Hellow World!</h1>
+<app-header />
+<main>
+  <app-post-create (postCreated)="onPostAdded($event)" />
+  <app-post-list [posts]="storedPosts" />
+</main>
+
