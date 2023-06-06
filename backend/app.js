@@ -1,6 +1,6 @@
 // imports
-const express = require('express');
-const bodyParser = require('body-parser');
+const express = require("express");
+const bodyParser = require("body-parser");
 
 // required code
 const app = express();
@@ -21,35 +21,34 @@ app.use((req, res, next) => {
   next();
 });
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
-
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // handles post requests
 app.post("/api/posts", (req, res, next) => {
   const posts = req.body;
   console.log(posts);
   res.status(201).json({
-    message: 'Post added succuesfully'
+    message: "Post added succuesfully",
   });
 });
 
 // handles get requests
-app.get('/api/posts' ,(req, res, next) => {
+app.get("/api/posts", (req, res, next) => {
   const posts = [
     {
-      id: 'adfs87ej',
-      title: 'First server-side post',
-      content: 'This is coming from the server'
+      id: "adfs87ej",
+      title: "First server-side post",
+      content: "This is coming from the server",
     },
     {
-      id: 'wiuef8hw',
-      title: 'Second serve-side post',
-      content: 'This is also coming from the server'
-    }
-  ]
+      id: "wiuef8hw",
+  title: "Second serve-side post",
+      content: "This is also coming from the server",
+    },
+  ];
   return res.status(200).json({
-    message: 'Post fetched successfully',
-    posts: posts
+    message: "Post fetched successfully",
+    posts: posts,
   });
 });
 
