@@ -1,6 +1,8 @@
 // imports
 const express = require("express");
 const bodyParser = require("body-parser");
+const mysql = require('mysql2');
+require('dotenv').config();
 
 // required code
 const app = express();
@@ -51,5 +53,20 @@ app.get("/api/posts", (req, res, next) => {
     posts: posts,
   });
 });
+
+
+// MySQL connection
+var connection = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: process.env.LOCAL_DB_PASS,
+  database: 'books_db'
+});
+var q = 'SELECT title AS title, released_year AS release_date FROM books WHERE released_year > 2000 AND CHAR_LENGTH(title) < 20';
+connection.query(q, function (error, results, fields) {
+  if (error) throw error;
+  console.log('The solution is: ', results);
+});
+connection.end();
 
 module.exports = app;
