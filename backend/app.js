@@ -43,7 +43,7 @@ app.get("/api/posts", (req, res, next) => {
       content: "This is coming from the server",
     },
     {
-      id: "wiuef8hw",
+      id: "wiu3f8hw",
   title: "Second serve-side post",
       content: "This is also coming from the server",
     },
