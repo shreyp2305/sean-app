@@ -10,8 +10,8 @@ import { PostsService } from '../posts.service'
   styleUrls: ['./post-create.component.css']
 })
 export class PostCreateComponent{
-  enteredTitle = '';
-  enteredContent = '';
+  // enteredTitle = '';
+  // enteredContent = '';
   // @Output() postCreated = new EventEmitter<Post>();
 
   constructor(public postsService: PostsService){};
@@ -25,7 +25,7 @@ export class PostCreateComponent{
     //   content: form.value.content
     // };
     // this.postCreated.emit(post);
-    this.postsService.addPost(form.value.title, form.value.content);
+    this.postsService.addPost(form.value.author, form.value.title, form.value.content);
     form.resetForm();
   }
 }

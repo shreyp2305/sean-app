@@ -6,13 +6,24 @@
         matInput
         type="text"
         ngModel
+        name="author"
+        required
+        placeholder="Post author"
+        #author="ngModel">
+        <mat-error *ngIf="author.invalid"> Please enter your name </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        ngModel
         name="title"
         required
         placeholder="Post title"
         #title="ngModel">
         <mat-error *ngIf="title.invalid"> Please enter a title </mat-error>
     </mat-form-field>
-
 
     <mat-form-field>
       <textarea

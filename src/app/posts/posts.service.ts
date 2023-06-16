@@ -6,11 +6,14 @@ import { Post } from './post.model';
 
 @Injectable({providedIn: 'root'})
 export class PostsService {
-  private postsArr: Post[] = [];
   private postsUpdatedSubject = new Subject<Post []>();
 
   constructor(private http: HttpClient) {};
+  getPostsUpdatedSubjectListener() {
+    return this.postsUpdatedSubject.asObservable();
+  }
 
+  private postsArr: Post[] = [];
   getPosts () {
     this.http.get<{message: string, posts: Post[]}>('http://localhost:3000/api/posts')
     .subscribe((postsData) =>{
@@ -19,12 +22,8 @@ export class PostsService {
     });
   }
 
-  getPostsUpdatedSubjectListener() {
-    return this.postsUpdatedSubject.asObservable();
-  }
-
-  addPost(title: string, content: string) {
-    const thisPost: Post = {id: null, title: title, content: content};
+  addPost(author: string, title: string, content: string) {
+    const thisPost: Post = {id: null, author: author, title: title, content: content};
     this.http.post<{message: string}>('http://localhost:3000/api/posts', thisPost)
     .subscribe((responseData) =>{
       console.log(responseData.message);
