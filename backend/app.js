@@ -29,7 +29,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Routers
-app.use("", postRouter);
+app.use("/api/posts", postRouter);
 
 // Sequelize
 

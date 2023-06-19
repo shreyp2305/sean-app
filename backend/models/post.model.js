@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-  const Post = sequelize.define('post', {
+  const Post = sequelize.define('posts', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
@@ -27,6 +27,7 @@ module.exports = (sequelize, Sequelize) => {
   Post.sync({ alter: true }).then(() => {
     console.log('Successfully synced Post model')
   }).catch((err) => {
+    console.log(err);
     console.log('Error syncing Post model');
   })
 

@@ -20,7 +20,6 @@ sequelize.authenticate().then( () => {
 // sequelize.sync({ alter: true });
 
 const db = {};
-
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.posts = require("./post.model.js")(sequelize, Sequelize);
