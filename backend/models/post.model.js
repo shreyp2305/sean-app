@@ -20,16 +20,16 @@ module.exports = (sequelize, Sequelize) => {
   },
   {
     freezeTableName: true,
-    timestamps: false
+    timestamps: true
   });
 
   // Sync Post manually
-  Post.sync({ alter: true }).then(() => {
-    console.log('Successfully synced Post model')
-  }).catch((err) => {
-    console.log(err);
-    console.log('Error syncing Post model');
-  })
+  // Post.sync({ alter: true }).then(() => {
+  //   console.log('Successfully synced Post model')
+  // }).catch((err) => {
+  //   console.log(err);
+  //   console.log('Error syncing Post model');
+  // })
 
   return Post;
 }
