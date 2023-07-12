@@ -22,9 +22,26 @@ export class PostsService {
     });
   }
 
-  addPost(author: string, title: string, content: string) {
-    const thisPost: Post = {author: author, title: title, content: content};
-    this.http.post<{message: string}>('http://localhost:3000/api/posts', thisPost).subscribe();
-  }
+  addPost(author: string, title: string, content: string, image: File) {
+    const postData = new FormData();
+    postData.append('author', author);
+    postData.append('title', title);
+    postData.append('content', content);
+    postData.append('image', image, title)
+    this.http
+      .post<{message: string, postId: number, imagePath: string}>('http://localhost:3000/api/posts', postData)
+      .subscribe((result) => {
+        const postReturned = {
+          id: result.postId,
+          author: author,
+          title: title,
+          content: content,
+          imagePath: result.imagePath
+        }
+        this.postsArr.push(postReturned);
+        this.postsUpdatedSubject.next([...this.postsArr]);
+      }
 
+      );
+  }
 }
