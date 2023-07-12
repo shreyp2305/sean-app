@@ -24,12 +24,11 @@ module.exports = (sequelize, Sequelize) => {
   });
 
   // Sync Post manually
-  // Post.sync({ alter: true }).then(() => {
-  //   console.log('Successfully synced Post model')
-  // }).catch((err) => {
-  //   console.log(err);
-  //   console.log('Error syncing Post model');
-  // })
+  Post.sync({ alter: true }).then(() => {
+    console.log('Successfully synced Post model')
+  }).catch((err) => {
+    console.log('Error syncing Post model: \n' + err);
+  })
 
   return Post;
 }
