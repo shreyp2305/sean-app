@@ -27,7 +27,13 @@ export class PostsService {
     postData.append('author', author);
     postData.append('title', title);
     postData.append('content', content);
-    postData.append('image', image, title)
+    console.log(image);
+    if (image === null) {
+    postData.append('image', '')
+    }
+    else {
+      postData.append('image', image, title)
+    }
     this.http
       .post<{message: string, postId: number, imagePath: string}>('http://localhost:3000/api/posts', postData)
       .subscribe((result) => {

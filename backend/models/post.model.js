@@ -19,7 +19,9 @@ module.exports = (sequelize, Sequelize) => {
     },
     imagePath: {
       type: Sequelize.STRING,
-      required: true
+      allowNull: false,
+      required: false,
+      default: ''
     }
   },
   {

@@ -29,22 +29,24 @@ export class PostCreateComponent implements OnInit{
       'content': new FormControl(null, {
         validators: [Validators.required]
       }),
-      'image': new FormControl(null, {
-        validators: [Validators.required],
-        asyncValidators: [mimeType]
-      })
+      'image': new FormControl(null)
     });
+
+    const imageControl = this.form.get('image');
+    this.form.get('image').valueChanges.subscribe((image) => {
+      if (image === null) {
+        imageControl.setAsyncValidators(null);
+      }
+      else {
+        imageControl.setAsyncValidators([mimeType])
+      }
+    })
   }
 
   onAddPost() {
     if (this.form.invalid) {
       return;
     }
-    // const post: Post = {
-    //   title: form.value.title,
-    //   content: form.value.content
-    // };
-    // this.postCreated.emit(post);
     this.postsService.addPost(this.form.value.author, this.form.value.title, this.form.value.content, this.form.value.image);
     this.form.reset();
   }

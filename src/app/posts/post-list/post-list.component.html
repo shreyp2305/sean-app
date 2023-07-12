@@ -7,7 +7,8 @@
       </mat-panel-title>
     </mat-expansion-panel-header>
     <div class="post-image">
-      <img [src]="post.imagePath">
+      <img *ngIf="post.imagePath != ''" [src]="post.imagePath">
+      <img *ngIf="post.imagePath == ''" src="https://cataas.com/cat?width=100/{{post.id}}">
     </div>
     <p> {{ post.content}} </p>
 
