@@ -21,7 +21,7 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: false,
       required: false,
-      default: ''
+      defaultValue: ''
     }
   },
   {
