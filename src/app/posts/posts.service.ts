@@ -46,8 +46,6 @@ export class PostsService {
         }
         this.postsArr.push(postReturned);
         this.postsUpdatedSubject.next([...this.postsArr]);
-      }
-
-      );
+      });
   }
 }
