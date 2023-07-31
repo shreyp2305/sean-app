@@ -32,8 +32,6 @@ app.use("/images", express.static(path.join("backend/assets/post_images")))
 // Routers
 app.use("/api/posts", postRouter);
 
-// Sequelize
-
 // MySQL connection
 // var connection = mysql.createConnection({
 //   host: "localhost",
