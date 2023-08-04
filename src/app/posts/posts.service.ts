@@ -15,7 +15,6 @@ export class PostsService {
     return this.postsUpdatedSubject.asObservable();
   }
 
-  private postsArr: Post[] = [];
   getPosts () {
     this.http.get<{message: string, posts: Post[]}>('http://localhost:3000/api/posts')
     .subscribe((postsData) =>{
@@ -49,5 +48,16 @@ export class PostsService {
         this.postsArr.push(postReturned);
         this.postsUpdatedSubject.next([...this.postsArr]);
       });
+  }
+
+  deletePost(id: number) {
+    this.http.delete(`http://localhost:3000/api/posts/${id}`)
+    .subscribe(() => {
+      const updatedPosts = this.postsArr.filter(post => {
+        return post.id !== id;
+      })
+      this.postsArr = updatedPosts;
+      this.postsUpdatedSubject.next([...this.postsArr])
+    })
   }
 }

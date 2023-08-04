@@ -44,12 +44,21 @@ router.post('', multer({storage: storage}).single("image"), async (req, res, nex
 // handles get requests
 router.get('', async (req, res, next) => {
   const all_posts = await db.posts.findAll()
-    .then( (data) => {res.status(200).json({
+    .then((data) => {res.status(200).json({
       message: "Posts fetched successfully!",
       posts: data
     })
   })
 });
 
+// handles delete requests
+router.delete('/:id', async (req, res, next) => {
+  const deletedPost = db.posts.destroy({
+    where:{ id: req.params.id}
+  })
+  .then(data => {
+    res.status(200).json({message: "Post deleted!"});
+  });
+});
 
 module.exports = router;
