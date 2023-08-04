@@ -6,3 +6,12 @@
 .info-text {
   text-align: center;
 }
+
+.post-image {
+  width: 100%
+}
+
+.post-image img {
+  aspect-ratio: 3/2;
+  max-width: 30%;
+}

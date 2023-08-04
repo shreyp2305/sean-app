@@ -8,3 +8,18 @@ button {
   margin-left: 2%;
   margin-bottom: 2%;
 }
+
+input[type="file"] {
+  visibility: hidden;
+}
+
+.image-preview {
+  height: 20rem;
+  width: 20rem;
+  margin: 1rem 0;
+}
+
+.image-preview img {
+  height: 100%;
+  width: 100%;
+}

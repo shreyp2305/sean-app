@@ -11,7 +11,11 @@ export class PostsService {
   private postsUpdatedSubject = new Subject<Post []>();
 
   constructor(private http: HttpClient) {};
+  getPostsUpdatedSubjectListener() {
+    return this.postsUpdatedSubject.asObservable();
+  }
 
+  private postsArr: Post[] = [];
   getPosts () {
     this.http.get<{message: string, posts: Post[]}>('http://localhost:3000/api/posts')
     .subscribe((postsData) =>{
@@ -20,18 +24,30 @@ export class PostsService {
     });
   }
 
-  getPostsUpdatedSubjectListener() {
-    return this.postsUpdatedSubject.asObservable();
+  addPost(author: string, title: string, content: string, image: File) {
+    const postData = new FormData();
+    postData.append('author', author);
+    postData.append('title', title);
+    postData.append('content', content);
+    console.log(image);
+    if (image === null) {
+    postData.append('image', '')
+    }
+    else {
+      postData.append('image', image, title)
+    }
+    this.http
+      .post<{message: string, postId: number, imagePath: string}>('http://localhost:3000/api/posts', postData)
+      .subscribe((result) => {
+        const postReturned = {
+          id: result.postId,
+          author: author,
+          title: title,
+          content: content,
+          imagePath: result.imagePath
+        }
+        this.postsArr.push(postReturned);
+        this.postsUpdatedSubject.next([...this.postsArr]);
+      });
   }
-
-  addPost(title: string, content: string) {
-    const thisPost: Post = {id: null, title: title, content: content};
-    this.http.post<{message: string}>('http://localhost:3000/api/posts', thisPost)
-    .subscribe((responseData) =>{
-      console.log(responseData.message);
-      this.postsArr.push(thisPost);
-      this.postsUpdatedSubject.next([...this.postsArr]);
-    });
-  }
-
 }
