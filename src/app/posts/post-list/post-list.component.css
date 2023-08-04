@@ -15,3 +15,8 @@
   aspect-ratio: 3/2;
   max-width: 30%;
 }
+
+mat-spinner {
+  margin: auto
+}
+
