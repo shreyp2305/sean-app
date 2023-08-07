@@ -5,7 +5,6 @@
       <input matInput
              formControlName="author"
              type="text"
-             name="author"
              placeholder="Post author" />
       <mat-error *ngIf="form.get('author').invalid">
         Please enter your name
@@ -16,7 +15,6 @@
       <input matInput
              formControlName="title"
              type="text"
-             name="title"
              placeholder="Post title" />
       <mat-error *ngIf="form.get('title').invalid">
         Please enter a title
@@ -27,7 +25,6 @@
       <textarea matInput
                 formControlName="content"
                 row="6"
-                name="content"
                 placeholder="Post content"></textarea>
       <mat-error *ngIf="form.get('content').invalid">
         Please enter content
