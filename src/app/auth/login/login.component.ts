@@ -8,6 +8,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
   form: FormGroup;
+  isLoading = false;
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -24,5 +25,6 @@ export class LoginComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
+    console.log(this.form);
   }
 }
