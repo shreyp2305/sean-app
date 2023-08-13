@@ -2,6 +2,7 @@ const express = require("express");
 const multer = require("multer");
 const router = express.Router();
 const db = require("../models/index");
+const checkAuth = require("../middleware/check-auth");
 
 const MIME_TYPE_MAP = {
   "image/png": "png",
@@ -25,6 +26,7 @@ const storage = multer.diskStorage({
 // handles post requests
 router.post(
   "",
+  checkAuth,
   multer({ storage: storage }).single("image"),
   async (req, res, next) => {
     const url = req.protocol + "://" + req.get("host");
@@ -72,7 +74,7 @@ router.get("", async (req, res, next) => {
 });
 
 // handles delete requests
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", checkAuth, async (req, res, next) => {
   const deletedPost = db.posts
     .destroy({
       where: { id: req.params.id },
