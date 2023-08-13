@@ -1,1 +1,27 @@
-<p>signup works!</p>
+<mat-card>
+    <form [formGroup]="form"
+          (submit)="onSignUp()">
+        <mat-form-field>
+            <input matInput
+                   formControlName="email"
+                   type="text"
+                   email
+                   placeholder="Enter valid email" />
+            <mat-error *ngIf="form.get('email').invalid">
+                Please enter your email
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput
+                   formControlName="password"
+                   type="password"
+                   placeholder="Enter your password" />
+            <mat-error *ngIf="form.get('password').invalid">
+                Please enter your password
+            </mat-error>
+        </mat-form-field>
+        <button mat-raised-button
+                color="accent"
+                type="submit">Save Post</button>
+    </form>
+</mat-card>

@@ -1,11 +1,11 @@
 const express = require("express");
-const db = require('./models/index');
-const mysql = require('mysql2');
-require('dotenv').config();
+const db = require("./models/index");
+const mysql = require("mysql2");
+require("dotenv").config();
 const postRouter = require("./routes/post.router");
+const userRouter = require("./routes/user.router");
 const bodyParser = require("body-parser");
 const path = require("path");
-
 
 // required code
 const app = express();
@@ -27,18 +27,10 @@ app.use((req, res, next) => {
 });
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use("/images", express.static(path.join("backend/assets/post_images")))
+app.use("/images", express.static(path.join("backend/assets/post_images")));
 
 // Routers
 app.use("/api/posts", postRouter);
-
-// MySQL connection
-// var connection = mysql.createConnection({
-//   host: "localhost",
-//   user: "root",
-//   password: process.env.LOCAL_DB_PASS,
-//   database: 'newsletter_db'
-// });
-// connection.end();
+app.use("/api/user", userRouter);
 
 module.exports = app;

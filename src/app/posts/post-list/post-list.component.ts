@@ -15,8 +15,8 @@ export class PostListComponent implements OnInit, OnDestroy {
   isLoading = false;
   totalPosts = 10;
   currentPage = 1;
-  postsPerPage = 2;
-  pageSizeOptions = [1, 2, 5];
+  postsPerPage = 5;
+  pageSizeOptions = [1, 5, 10];
 
   constructor(public postsService: PostsService) {}
 

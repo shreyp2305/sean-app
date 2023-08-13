@@ -63,7 +63,6 @@ router.get("", async (req, res, next) => {
       return db.posts.count();
     })
     .then((count) => {
-      console.log(count);
       res.status(200).json({
         message: "Posts fetched successfully!",
         posts: fetchedPosts,
