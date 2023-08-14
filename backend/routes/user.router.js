@@ -1,15 +1,16 @@
+require("dotenv").config();
 const express = require("express");
 const router = express.Router();
 const db = require("../models/index");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const BCRYPT_SALT = 10;
-const JWT_PRIVATE_KEY = "secret_this_should_be_long_that_this";
-
 router.post("/signup", async (req, res, next) => {
   try {
-    const hashedPassword = await bcrypt.hash(req.body.password, BCRYPT_SALT);
+    const hashedPassword = await bcrypt.hash(
+      req.body.password,
+      process.env.BCRYPT_SALT
+    );
     const User = await db.users.create({
       email: req.body.email,
       password: hashedPassword,
@@ -43,7 +44,7 @@ router.post("/login", async (req, res, next) => {
       }
       const token = jwt.sign(
         { email: fetechedUser.email, userId: fetechedUser.id },
-        JWT_PRIVATE_KEY,
+        process.env.JWT_PRIVATE_KEY,
         {
           expiresIn: "1h",
         }

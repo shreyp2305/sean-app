@@ -6,7 +6,6 @@ import { Post } from './post.model';
 
 @Injectable({ providedIn: 'root' })
 export class PostsService {
-  // variables
   private postsArr: Post[] = [];
   private postsUpdatedSubject = new Subject<{
     posts: Post[];

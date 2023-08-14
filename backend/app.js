@@ -1,7 +1,6 @@
 const express = require("express");
 const db = require("./models/index");
 const mysql = require("mysql2");
-require("dotenv").config();
 const postRouter = require("./routes/post.router");
 const userRouter = require("./routes/user.router");
 const bodyParser = require("body-parser");
@@ -17,7 +16,7 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
     "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
   );
   res.setHeader(
     "Access-Control-Allow-Methods",

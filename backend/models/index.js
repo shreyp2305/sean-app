@@ -1,8 +1,14 @@
+require("dotenv").config();
 const Sequelize = require("sequelize");
-const sequelize = new Sequelize("newsletter", "root", "APbmCP70!", {
-  dialect: "mysql",
-  freezeTableName: true,
-});
+const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASS,
+  {
+    dialect: "mysql",
+    freezeTableName: true,
+  }
+);
 
 // Test to check connection ---------------------
 sequelize
