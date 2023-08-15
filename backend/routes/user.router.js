@@ -9,7 +9,7 @@ router.post("/signup", async (req, res, next) => {
   try {
     const hashedPassword = await bcrypt.hash(
       req.body.password,
-      process.env.BCRYPT_SALT
+      +process.env.BCRYPT_SALT
     );
     const User = await db.users.create({
       email: req.body.email,
@@ -49,7 +49,7 @@ router.post("/login", async (req, res, next) => {
           expiresIn: "1h",
         }
       );
-      return res.status(200).json({ token: token });
+      return res.status(200).json({ token: token, expiresIn: 3600 });
     })
     .catch((err) => {
       return res.status(401).json({ message: "Auth failed" });
