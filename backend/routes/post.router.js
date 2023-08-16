@@ -29,13 +29,13 @@ router.post(
   checkAuth,
   multer({ storage: storage }).single("image"),
   async (req, res, next) => {
-    const url = req.protocol + "://" + req.get("host");
+    // const url = req.protocol + "://" + req.get("host");
     const post = await db.posts
       .create({
         title: req.body.title,
         content: req.body.content,
         author: req.body.author,
-        imagePath: req.file ? url + "/images/" + req.file.filename : "",
+        imagePath: req.file ? "/images/" + req.file.filename : "",
       })
       .then((createdPost) => {
         res.status(201).json({

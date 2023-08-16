@@ -14,6 +14,7 @@ export class PostListComponent implements OnInit, OnDestroy {
   posts: Post[] = [];
   private postsSub: Subscription;
   isLoading = false;
+  baseUrl: string = 'http://localhost:3000';
 
   totalPosts: number;
   currentPage = 1;
