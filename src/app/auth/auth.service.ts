@@ -44,13 +44,17 @@ export class AuthService {
       .subscribe((response) => {
         if (response.token) {
           this.token = response.token;
-          const expiresInDuration = response.expiresIn;
-          this.tokenTimer = setTimeout(() => {
-            this.logout();
-            console.log('logged out');
-          }, expiresInDuration * 1000);
           this.status = true;
           this.authStatusSubject.next(true);
+
+          const expiresInDuration = response.expiresIn;
+          this.setAuthTimer(expiresInDuration);
+
+          this.saveAuthData(
+            this.token,
+            new Date(new Date().getTime() + expiresInDuration * 1000)
+          );
+
           this.router.navigate(['/']);
         }
       });
@@ -60,7 +64,53 @@ export class AuthService {
     this.token = null;
     this.status = false;
     this.authStatusSubject.next(false);
+
     clearTimeout(this.tokenTimer);
+    this.clearAuthData();
+
     this.router.navigate(['/']);
+  }
+
+  autoAuth() {
+    const authInfo = this.getAuthData();
+    if (!authInfo) {
+      return;
+    }
+    const expiresIn = authInfo.expirationDate.getTime() - new Date().getTime();
+    if (expiresIn > 0) {
+      this.token = authInfo.token;
+      this.status = true;
+      this.authStatusSubject.next(true);
+
+      this.setAuthTimer(expiresIn / 1000);
+    }
+  }
+
+  private saveAuthData(token: string, expirationDate: Date) {
+    localStorage.setItem('token', token);
+    localStorage.setItem('expiration', expirationDate.toISOString());
+  }
+
+  private clearAuthData() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('expiration');
+  }
+
+  private getAuthData() {
+    const token = localStorage.getItem('token');
+    const expirationDate = localStorage.getItem('expiration');
+    if (!token || !expirationDate) {
+      return;
+    }
+    return {
+      token: token,
+      expirationDate: new Date(expirationDate),
+    };
+  }
+
+  private setAuthTimer(duration: number) {
+    this.tokenTimer = setTimeout(() => {
+      this.logout();
+    }, duration * 1000);
   }
 }
