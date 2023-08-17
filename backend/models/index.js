@@ -20,13 +20,24 @@ sequelize
     console.log("Error connecting to database!");
   });
 
-// Re-syncs all tables if they been modified ----
-// sequelize.sync({ alter: true });
-
 const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.posts = require("./post.model.js")(sequelize, Sequelize);
 db.users = require("./user.model.js")(sequelize, Sequelize);
+
+// Associations
+db.users.hasMany(db.posts);
+db.posts.belongsTo(db.users);
+
+// Re-syncs all tables if they been modified
+sequelize
+  .sync({ alter: true })
+  .then(() => {
+    console.log("Successfully synced DB");
+  })
+  .catch((err) => {
+    console.log("Error syncing DB: \n" + err);
+  });
 
 module.exports = db;

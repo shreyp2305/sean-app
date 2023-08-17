@@ -17,9 +17,6 @@ export class PostCreateComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = new FormGroup({
-      author: new FormControl(null, {
-        validators: [Validators.required],
-      }),
       title: new FormControl(null, {
         validators: [Validators.required, Validators.minLength(3)],
       }),
@@ -45,7 +42,6 @@ export class PostCreateComponent implements OnInit {
     }
     this.isLoading = true;
     this.postsService.addPost(
-      this.form.value.author,
       this.form.value.title,
       this.form.value.content,
       this.form.value.image

@@ -34,7 +34,6 @@ router.post(
       .create({
         title: req.body.title,
         content: req.body.content,
-        author: req.body.author,
         imagePath: req.file ? "/images/" + req.file.filename : "",
       })
       .then((createdPost) => {

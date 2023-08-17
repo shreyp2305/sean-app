@@ -1,15 +1,6 @@
 <mat-card>
   <form [formGroup]="form"
         (submit)="onAddPost()">
-    <mat-form-field>
-      <input matInput
-             formControlName="author"
-             type="text"
-             placeholder="Post author" />
-      <mat-error *ngIf="form.get('author').invalid">
-        Please enter your name
-      </mat-error>
-    </mat-form-field>
 
     <mat-form-field>
       <input matInput

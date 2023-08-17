@@ -34,9 +34,8 @@ export class PostsService {
     const temp = {};
   }
 
-  addPost(author: string, title: string, content: string, image: File) {
+  addPost(title: string, content: string, image: File) {
     const postData = new FormData();
-    postData.append('author', author);
     postData.append('title', title);
     postData.append('content', content);
     if (image === null) {
