@@ -29,12 +29,12 @@ router.post(
   checkAuth,
   multer({ storage: storage }).single("image"),
   async (req, res, next) => {
-    // const url = req.protocol + "://" + req.get("host");
     const post = await db.posts
       .create({
         title: req.body.title,
         content: req.body.content,
         imagePath: req.file ? "/images/" + req.file.filename : "",
+        userId: req.userData.userId,
       })
       .then((createdPost) => {
         res.status(201).json({
@@ -76,10 +76,14 @@ router.get("", async (req, res, next) => {
 router.delete("/:id", checkAuth, async (req, res, next) => {
   const deletedPost = db.posts
     .destroy({
-      where: { id: req.params.id },
+      where: { id: req.params.id, userId: req.userData.userId },
     })
     .then((data) => {
-      res.status(200).json({ message: "Post deleted!" });
+      if (data > 0) {
+        res.status(200).json({ message: "Post Deleted!" });
+      } else {
+        res.status(401).json({ message: "Not Authorized lol!" });
+      }
     });
 });
 

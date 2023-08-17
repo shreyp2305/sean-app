@@ -11,16 +11,18 @@ import { AuthService } from 'src/app/auth/auth.service';
   styleUrls: ['./post-list.component.css'],
 })
 export class PostListComponent implements OnInit, OnDestroy {
+  baseUrl: string = 'http://localhost:3000';
+
   posts: Post[] = [];
   private postsSub: Subscription;
   isLoading = false;
-  baseUrl: string = 'http://localhost:3000';
 
   totalPosts: number;
   currentPage = 1;
   postsPerPage = 5;
   pageSizeOptions = [1, 5, 10];
 
+  userId: number;
   isAuthenticated: boolean = false;
   private authSub: Subscription;
 
@@ -39,10 +41,12 @@ export class PostListComponent implements OnInit, OnDestroy {
         this.posts = postsData.posts;
         this.totalPosts = postsData.maxPosts;
       });
+    this.userId = this.authService.getUserId();
     this.isAuthenticated = this.authService.getAuthStatus();
     this.authSub = this.authService
       .getAuthStatusSubject()
       .subscribe((authStatus) => {
+        this.userId = this.authService.getUserId();
         this.isAuthenticated = authStatus;
       });
   }

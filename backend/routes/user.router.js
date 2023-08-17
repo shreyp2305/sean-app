@@ -33,10 +33,11 @@ router.post("/login", async (req, res, next) => {
     .findOne({ where: { email: req.body.email } })
     .then((user) => {
       if (!user) {
-        return res.status(404).json({ message: "User not found" });
+        res.status(404).json({ message: "User not found" });
+      } else {
+        fetechedUser = user;
+        return bcrypt.compare(req.body.password, user.password);
       }
-      fetechedUser = user;
-      return bcrypt.compare(req.body.password, user.password);
     })
     .then((result) => {
       if (!result) {
@@ -49,7 +50,9 @@ router.post("/login", async (req, res, next) => {
           expiresIn: "1h",
         }
       );
-      return res.status(200).json({ token: token, expiresIn: 3600 });
+      return res
+        .status(200)
+        .json({ token: token, expiresIn: 3600, userId: fetechedUser.id });
     })
     .catch((err) => {
       return res.status(401).json({ message: "Auth failed" });
