@@ -22,7 +22,7 @@ router.post("/signup", async (req, res, next) => {
   } catch (error) {
     console.error("Error creating user:", error);
     res.status(500).json({
-      err: "Error creating user",
+      message: "Invalid authentication credentials",
     });
   }
 });
@@ -36,7 +36,9 @@ router.post("/login", async (req, res, next) => {
       .compare(req.body.password, fetechedUser.password)
       .then((result) => {
         if (!result) {
-          return res.status(401).json({ message: "Auth Failed" });
+          return res
+            .status(401)
+            .json({ message: "Invalid authentication credentials" });
         }
         const token = jwt.sign(
           { email: fetechedUser.email, userId: fetechedUser.id },

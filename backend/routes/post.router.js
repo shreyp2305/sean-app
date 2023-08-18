@@ -29,7 +29,7 @@ router.post(
   checkAuth,
   multer({ storage: storage }).single("image"),
   async (req, res, next) => {
-    const post = await db.posts
+    await db.posts
       .create({
         title: req.body.title,
         content: req.body.content,
@@ -42,6 +42,9 @@ router.post(
           postId: createdPost.id,
           imagePath: createdPost.imagePath,
         });
+      })
+      .catch((error) => {
+        res.status(500).json({ message: "Failed to create a Post" });
       });
   }
 );
@@ -69,6 +72,9 @@ router.get("", async (req, res, next) => {
         posts: fetchedPosts,
         maxPosts: count,
       });
+    })
+    .catch((error) => {
+      res.status(500).json({ message: "Failed to fetch posts" });
     });
 });
 
@@ -84,6 +90,9 @@ router.delete("/:id", checkAuth, async (req, res, next) => {
       } else {
         res.status(401).json({ message: "Not Authorized lol!" });
       }
+    })
+    .catch((error) => {
+      res.status(500).json({ message: "Failed to delete post" });
     });
 });
 
