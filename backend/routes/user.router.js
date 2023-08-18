@@ -28,35 +28,33 @@ router.post("/signup", async (req, res, next) => {
 });
 
 router.post("/login", async (req, res, next) => {
-  let fetechedUser;
-  await db.users
-    .findOne({ where: { email: req.body.email } })
-    .then((user) => {
-      if (!user) {
-        res.status(404).json({ message: "User not found" });
-      } else {
-        fetechedUser = user;
-        return bcrypt.compare(req.body.password, user.password);
-      }
-    })
-    .then((result) => {
-      if (!result) {
-        return res.status(401).json({ message: "Auth Failed" });
-      }
-      const token = jwt.sign(
-        { email: fetechedUser.email, userId: fetechedUser.id },
-        process.env.JWT_PRIVATE_KEY,
-        {
-          expiresIn: "1h",
+  const fetechedUser = await db.users.findOne({
+    where: { email: req.body.email },
+  });
+  if (fetechedUser != null) {
+    await bcrypt
+      .compare(req.body.password, fetechedUser.password)
+      .then((result) => {
+        if (!result) {
+          return res.status(401).json({ message: "Auth Failed" });
         }
-      );
-      return res
-        .status(200)
-        .json({ token: token, expiresIn: 3600, userId: fetechedUser.id });
-    })
-    .catch((err) => {
-      return res.status(401).json({ message: "Auth failed" });
-    });
+        const token = jwt.sign(
+          { email: fetechedUser.email, userId: fetechedUser.id },
+          process.env.JWT_PRIVATE_KEY,
+          {
+            expiresIn: "1h",
+          }
+        );
+        return res
+          .status(200)
+          .json({ token: token, expiresIn: 3600, userId: fetechedUser.id });
+      })
+      .catch((err) => {
+        return res.status(401).json({ message: "Auth failed" });
+      });
+  } else {
+    return res.status(404).json({ message: "User not found" });
+  }
 });
 
 module.exports = router;
