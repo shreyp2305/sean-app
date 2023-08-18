@@ -33,8 +33,13 @@ export class AuthService {
     const authData: AuthData = { email: email, password: password };
     this.http
       .post('http://localhost:3000/api/user/signup', authData)
-      .subscribe((response) => {
-        this.router.navigate(['/']);
+      .subscribe({
+        next: (response) => {
+          this.router.navigate(['/']);
+        },
+        error: (error) => {
+          this.authStatusSubject.next(false);
+        },
       });
   }
 
@@ -45,24 +50,29 @@ export class AuthService {
         'http://localhost:3000/api/user/login',
         authData
       )
-      .subscribe((response) => {
-        if (response.token) {
-          this.userId = response.userId;
-          this.token = response.token;
-          this.status = true;
-          this.authStatusSubject.next(true);
+      .subscribe({
+        next: (response) => {
+          if (response.token) {
+            this.userId = response.userId;
+            this.token = response.token;
+            this.status = true;
+            this.authStatusSubject.next(true);
 
-          const expiresInDuration = response.expiresIn;
-          this.setAuthTimer(expiresInDuration);
+            const expiresInDuration = response.expiresIn;
+            this.setAuthTimer(expiresInDuration);
 
-          this.saveAuthDataToLocalStorage(
-            this.userId,
-            this.token,
-            new Date(new Date().getTime() + expiresInDuration * 1000)
-          );
+            this.saveAuthDataToLocalStorage(
+              this.userId,
+              this.token,
+              new Date(new Date().getTime() + expiresInDuration * 1000)
+            );
 
-          this.router.navigate(['/']);
-        }
+            this.router.navigate(['/']);
+          }
+        },
+        error: (error) => {
+          this.authStatusSubject.next(false);
+        },
       });
   }
 
